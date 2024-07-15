@@ -1,0 +1,137 @@
+# Insert your SSID and Your PWD after inital setup
+wifi:
+# networks:
+#    - ssid: 'REPLACEME'          # Enter your WiFi SSID here. Example: `ssid: 'your_network_name'`
+#      password: 'REPLACEME'      # Enter your wifi password here. Example: `password: 'abcde123456'`
+  ap:
+    ssid: ${name}
+
+
+#####################################################################
+###################### HOW TO CONNECT ###############################
+#####################################################################
+
+# Relay 1 connected to 'Betriebsart' pin
+# Relay 2 connected to '0/1' pin
+# Relay 3 connected to '2' pin
+# Relay 4 connected to '3' pin
+# And all COM terminals are connected to the 'Schalter' pin
+
+#####################################################################
+
+
+# Enable the captive portal for inital WiFi setup
+captive_portal:
+
+dashboard_import:
+  package_import_url: github://yllwfsh/ventilation-controller/ventilation-controller.yaml
+
+improv_serial:
+
+substitutions:
+  name: ventilation-controller
+  friendly_name: VentilationController
+
+
+esphome:
+  name: $name
+  friendly_name: $friendly_name
+  name_add_mac_suffix: true
+  project:
+    name: yllwfsh.ventilation-controller
+    version: "1.1"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  - platform: esphome
+
+web_server:
+  port: 80
+
+
+# ------------------------------------------------------
+
+
+
+
+
+fan:
+  - platform: speed
+    output: outputsplit
+    name: $friendly_name
+    speed_count: 4
+    oscillation_output: betriebsart
+    restore_mode: RESTORE_DEFAULT_OFF
+
+output:
+  - platform: template
+    id: outputsplit
+    type: float
+    write_action: # Filter based on setting 0/25/50/75/100% :
+      - if:
+          condition:
+            lambda: return (state == 0); # 0%
+          then:
+            - output.turn_off: stufe01 # All off
+            - output.turn_off: stufe2
+            - output.turn_off: stufe3
+      - if:
+          condition:
+            lambda: return (state == .25); # 25%
+          then:
+            - output.turn_off: stufe01 # Only 0/1 on (Stufe 1)
+            - output.turn_off: stufe2
+            - output.turn_off: stufe3
+            - output.turn_on: stufe01
+      - if:
+          condition:
+            lambda: return (state == .50); # 50%
+          then:
+            - output.turn_off: stufe01 # 0/1 and 2 on (Stufe 2)
+            - output.turn_off: stufe2
+            - output.turn_off: stufe3
+            - output.turn_on: stufe01
+            - output.turn_on: stufe2
+      - if:
+          condition:
+            lambda: return (state == .75); # 75%
+          then:
+            - output.turn_off: stufe01 # 0/1 and 3 on (Stufe 3)
+            - output.turn_off: stufe2
+            - output.turn_off: stufe3
+            - output.turn_on: stufe01
+            - output.turn_on: stufe3
+      - if:
+          condition:
+            lambda: return (state == 1); # 100%
+          then:
+            - output.turn_off: stufe01 # All on (Stufe 5 - Hurricane mode)
+            - output.turn_off: stufe2
+            - output.turn_off: stufe3
+            - output.turn_on: stufe01
+            - output.turn_on: stufe2
+            - output.turn_on: stufe3
+  - platform: gpio
+    pin: 32
+    id: betriebsart # Relay 1 connected to 'Betriebsart' pin
+  - platform: gpio
+    pin: 33
+    id: stufe01 # Relay 2 connected to '0/1' pin
+  - platform: gpio
+    pin: 25
+    id: stufe2 # Relay 3 connected to '2' pin
+  - platform: gpio
+    pin: 26
+    id: stufe3 # Relay 4 connected to '3' pin
+
+    # And all COM terminals are connected to the 'Schalter' pin
