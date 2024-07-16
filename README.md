@@ -18,5 +18,6 @@ Connect the relay board to the Tecalor module:
 - Relay 3 NO to 'Stufe 2' pin
 - Relay 4 NO to 'Stufe 3' pin
 - All Relays COM terminals together and to 'Schalter' pin
+- Use 24V DC and GND from the ventilation power supply to power relay board.
 
 ![Excerpt from Tecalor manual](connections.png)
