@@ -12,9 +12,9 @@ wifi:
 #####################################################################
 
 # Relay 1 connected to 'Betriebsart' pin
-# Relay 2 connected to '0/1' pin
-# Relay 3 connected to '2' pin
-# Relay 4 connected to '3' pin
+# Relay 2 connected to 'Stufe 0/1' pin
+# Relay 3 connected to 'Stufe 2' pin
+# Relay 4 connected to 'Stufe 3' pin
 # And all COM terminals are connected to the 'Schalter' pin
 
 #####################################################################
@@ -58,12 +58,7 @@ ota:
 web_server:
   port: 80
 
-
-# ------------------------------------------------------
-
-
-
-
+#####################################################################
 
 fan:
   - platform: speed
