@@ -20,7 +20,8 @@ ESPHome configuration for Tecalor Ventilation
   - Enter your wifi credentials
   - Upload the initial firmware
   - The board should now appear ONLINE in the ESPhome interface
-- Copy the relevant parts of the [ventilation-controller.yaml](https://github.com/yllwfsh/ventilation-controller/blob/main/ventilation-controller.yaml) config to your ESPhome config
+- Copy the relevant parts of the [ventilation-controller.yaml](https://github.com/yllwfsh/ventilation-controller/blob/main/ventilation-controller.yaml) config to your ESPhome config (make sure the wifi credentials are correct)
+- Upload the new config wirelessly to the board
 - Add the board to Home Assistant
 - Switch off the ventilation initially from the Techalor Control panel
 - Enjoy controlling the house ventilation from Home Assistant
