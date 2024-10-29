@@ -8,7 +8,22 @@ ESPHome configuration for Tecalor Ventilation
 - Optional: Electronics box to house the relay board in.
 
 ### Flash Esphome using the template
-To do
+- Obtain a USB to 3.3v TTL serial programmer
+- Connect the pins:
+  - GND to GND
+  - 3.3v to 3.3v on the board (not to 5v pin)
+  - TX to RX
+  - RX to TX
+- Open ESPhome in a Chrome-based browser (Google Chrome / MS Edge)
+- Use the ESPhome interface to prepare the board
+  - Select Generic ESP32
+  - Enter your wifi credentials
+  - Upload the initial firmware
+  - The board should now appear ONLINE in the ESPhome interface
+- Copy the relevant parts of the [ventilation-controller.yaml](https://github.com/yllwfsh/ventilation-controller/blob/main/ventilation-controller.yaml) config to your ESPhome config
+- Add the board to Home Assistant
+- Switch off the ventilation initially from the Techalor Control panel
+- Enjoy controlling the house ventilation from Home Assistant
 
 ### Connect the board
 Connect the relay board to the Tecalor module:
